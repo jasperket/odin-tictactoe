@@ -1,0 +1,10 @@
+.container {
+    height: 100vh;
+}
+
+.board {
+    width: 70%;
+    height: 70%;
+    display: grid;
+    grid-template: 1fr 1fr 1fr / 1fr 1fr 1fr;
+}
