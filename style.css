@@ -1,10 +1,14 @@
 .container {
     height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 }
 
 .board {
-    width: 70%;
-    height: 70%;
+    width: 35%;
+    height: 50%;
     display: grid;
     grid-template: 1fr 1fr 1fr / 1fr 1fr 1fr;
 }

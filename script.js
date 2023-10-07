@@ -14,11 +14,35 @@ const Gameboard = (() => {
     let marks = 0;
     let gameEnd = false;
     let playerTurn = playerOne;
-    const board = [
+    let board = [
         ['','',''],
         ['','',''],
         ['','','']
     ];
+
+    const checkRowsCols = (r1,c1,r2,c2,r3,c3) => {
+        const firstMark = board[r1][c1];
+        const secondMark = board[r2][c2];
+        const thirdMark = board[r3][c3];
+
+        if(firstMark === secondMark && secondMark === thirdMark) {
+            gameEnd = true;
+        }
+    }
+
+    const checkColumn = (col) => {
+        checkRowsCols(0,col,1,col,2,col);
+    }
+
+    const checkRow = (row) => {
+        checkRowsCols(row,0,row,1,row,2);
+    }
+
+    const checkDiagonal = () => {
+        checkRowsCols(0,2,1,1,2,0);
+        checkRowsCols(0,0,1,1,2,2);
+    }
+
     const boardButtons = document.querySelectorAll('.board button');
     boardButtons.forEach((btn) => {
         btn.addEventListener('click', () => {
@@ -26,13 +50,41 @@ const Gameboard = (() => {
             const col = btn.dataset.col;
             playerTurn.addMark(row,col);
             btn.textContent = playerTurn.getMark();
+
             if (playerTurn === playerOne) {
                 playerTurn = playerTwo;
             } else {
                 playerTurn = playerOne;
             }
+            
+            if(marks >= 3) {
+                checkRow(row);
+                checkColumn(col);
+                checkDiagonal();
+            }
+            
+
+            if(marks === 9) {
+                gameEnd = true;
+            }
+
+            if(gameEnd) {
+                boardButtons.forEach((btnBoard) => {
+                    btnBoard.textContent = '';
+                    btnBoard.disabled = false;
+                });
+                board = [
+                    ['','',''],
+                    ['','',''],
+                    ['','','']
+                ];
+                gameEnd = false;
+            } else {
+                btn.disabled = true;
+            }
         })
     });
+
     const markAdded = () => marks++;
-    return {board, markAdded};
+    return {board, markAdded, checkDiagonal,checkRowsCols, gameEnd};
 })();
