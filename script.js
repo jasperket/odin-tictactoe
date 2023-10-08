@@ -57,7 +57,7 @@ const Gameboard = (() => {
                 playerTurn = playerOne;
             }
             
-            if(marks >= 3) {
+            if(marks >= 5) {
                 checkRow(row);
                 checkColumn(col);
                 checkDiagonal();
@@ -73,12 +73,14 @@ const Gameboard = (() => {
                     btnBoard.textContent = '';
                     btnBoard.disabled = false;
                 });
-                board = [
-                    ['','',''],
-                    ['','',''],
-                    ['','','']
-                ];
+                board.forEach((row) => {
+                    row.forEach((cell, colIndex) => {
+                        row[colIndex] = ''; // Set each cell to an empty string
+                    });
+                });
+                marks = 0;
                 gameEnd = false;
+                playerTurn = playerOne;
             } else {
                 btn.disabled = true;
             }
